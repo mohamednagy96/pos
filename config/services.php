@@ -32,7 +32,7 @@ return [
     //facebook
     'facebook' => [
         'client_id' => env('FACEBOOK_CLIENT_ID'),
-        'client_key' => env('FACEBOOK_CLIENT_KEY'),
+        'client_secret' => env('FACEBOOK_CLIENT_KEY'),
         'redirect' => env('FACEBOOK_REDIRECT'),
     ],
 //github

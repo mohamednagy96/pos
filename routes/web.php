@@ -14,13 +14,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+define('PAGINATION_COUNT',10);
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 Auth::routes(['verify'=>true]);
 
-Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
-Route::get('redirect/{service}','User\SocialController@redirect');
-Route::get('callback/{service}','User\SocialController@callback');
+    Route::get('/', 'HomeController@index')->name('home')->prefix('admin')->middleware('verified');
+    route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
+    Route::resource('products','ProductController');
+});
+Route::get('redirect/{service}','Admin\SocialController@redirect');
+Route::get('callback/{service}','Admin\SocialController@callback');
