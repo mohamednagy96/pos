@@ -36,7 +36,17 @@
               </p>
             </a>
           </li>
-
+          <li class="nav-item">
+            <a href="#" class="nav-link" onclick="document.getElementById('logout-form').submit()">
+                <i class="nav-icon fa fa-sign-out-alt"></i>
+                <p>
+                Logout
+              </p>
+              <form action={{route('logout') }} method="POSt" id="logout-form">
+                  @csrf
+              </form>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
