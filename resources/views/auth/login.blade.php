@@ -55,11 +55,14 @@
 
 <div class="social-auth-links text-center mb-3">
   <p>- OR -</p>
-  <a href="#" class="btn btn-block btn-primary">
-    <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+<a href="{{url('redirect/facebook')}}" class="btn btn-block btn-primary">
+    <i class="fab fa-facebook mr-1"></i> Sign in using Facebook
   </a>
-  <a href="#" class="btn btn-block btn-danger">
+  <a href="{{url('redirect/google')}}" class="btn btn-block btn-danger">
     <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+  </a>
+  <a href="{{url('redirect/github')}}" class="btn btn-block btn-dark">
+    <i class="fab fa-github mr-2"></i> Sign in using GitHub
   </a>
 </div>
 <!-- /.social-auth-links -->
