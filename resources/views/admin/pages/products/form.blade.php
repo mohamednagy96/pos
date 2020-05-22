@@ -1,10 +1,5 @@
 <div class="card">
     <div class="card-body">
-
-        <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-
-
             {{-- <div class="form-group">
                 <label for="name">Name</label>
                 <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name"
@@ -58,8 +53,13 @@
             <div class="form-group">
                 <label for="status">Status</label>
                 <select name="status" class="form-control @error('status') is-invalid @enderror" id="status">
+                    @if($product)
+                    <option value="1" {{ old('status', $product->status) === 1 ? 'selected' : ''}}>Active</option>
+                    <option value="0" {{ old('status', $product->status) === 0 ? 'selected' : ''}}>Inactive</option>
+                    @else
                     <option value="1" {{ old('status') === 1 ? 'selected' : ''}}>Active</option>
                     <option value="0" {{ old('status') === 0 ? 'selected' : ''}}>Inactive</option>
+                    @endif
                 </select>
                 @error('status')
                 <span class="invalid-feedback" role="alert">
@@ -69,7 +69,6 @@
             </div>
 
             <button class="btn btn-primary" type="submit">{{isset($product) ? 'Update' : 'Create'}}</button>
-        </form>
     </div>
 </div>
 

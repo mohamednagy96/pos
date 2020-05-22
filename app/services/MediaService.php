@@ -22,4 +22,5 @@ class MediaService{
             $model->addMedia($file)->toMediaCollection($collection);
     }
 
+
 }

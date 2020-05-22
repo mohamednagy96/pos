@@ -14,6 +14,7 @@
                     <th>Image</th>
                     <th>BarCode</th>
                     <th>Price</th>
+                    <th>Status</th>
                     <th>Created At</th>
                     <th>Updated At</th>
                     <th>Actions</th>
@@ -27,8 +28,15 @@
                     <td><img src="{{$product->getImage()}} "width="100"></td>
                     <td>{{$product->barcode}}</td>
                     <td>{{$product->price}}</td>
-                    <td>{{$product->created_at}}</td>
-                    <td>{{$product->updated_at}}</td>
+                    <td>
+                    @if( $product->status == 1 )
+                        <span class="badge badge-success">Active</span>
+                    @else
+                       <span class="badge badge-dark">In-Active</span>
+                    @endif
+                    </td>
+                    <td>{{$product->created_at ? $product->created_at->diffForHumans() : null }}</td>
+                    <td>{{$product->updated_at ? $product->updated_at->diffForHumans() : null }}</td>
                     <td>
                     <a href="{{route('products.edit',$product)}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                     <a href="{{route('products.show',$product)}}" class="btn btn-info"><i class="fas fa-eye"></i></a>

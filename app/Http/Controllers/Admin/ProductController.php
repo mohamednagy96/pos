@@ -41,7 +41,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         /** to store image */
-        
+
         // $image_path='';
         // if($request->hasFile('image')){
         //     $image_path=$request->file('image')->store('images/products');
@@ -53,7 +53,7 @@ class ProductController extends Controller
         $request=$request->all();
         // $request['image']=$image_path;
         $product=Product::create($request);
-        if($request['image']){
+        if(isset($request['image'])){
             MediaService::uploadFile($request['image'],$product,'products');
         }
         if (!$product) {
@@ -81,7 +81,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('admin.pages.products.edit',compact('product'));   
     }
 
     /**
@@ -91,9 +91,29 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
+        $request=$request->all();
+        $product->update($request);
+        /**update image by storage */
+        // if ($request->hasFile('image')) {
+        //     // Delete old image
+        //     if ($product->image) {
+        //         Storage::delete($product->image);
+        //     }
+        //     // Store image
+        //     $image_path = $request->file('image')->store('products');
+        //     // Save to Database
+        //     $product->image = $image_path;
+        // }
+
+        if(isset($request['image'])){
+            MediaService::updateFile($request['image'],$product,'products');
+        }
+        if (!$product) {
+            return redirect()->back()->with('error', 'Sorry, there a problem while updating product.');
+        }
+        return redirect()->route('products.index')->with('success', 'Success, Your Product have been Updated.');
     }
 
     /**

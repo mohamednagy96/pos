@@ -14,4 +14,5 @@ class Product extends Model implements HasMedia
    public function getImage($collection='products'){
    return  $this->getFirstMedia($collection) ? $this->getFirstMedia($collection)->getUrl() : null ;
    }
+
 }

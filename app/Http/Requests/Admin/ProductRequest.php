@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class ProductRequest extends FormRequest
 {
@@ -23,11 +24,13 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
+        $id=Request()->product->id;
+        // dd($id);
         return [
             'name'=>'required|string|max:255',
             'description'=>'required|string',
             'image'=>'nullable|image',
-            'barcode'=>'required|string|max:50',
+            'barcode'=>"required|string|max:50|unique:products,barcode,{$id}",
             'price'=>'required|regex:/^\d+(\.\d{1,2})?$/',
             'status'=>'required|boolean',
         ];
