@@ -3,6 +3,7 @@
         <h3 class="box-title">
             @if(isset($title))
             {{$title}}
+            @endif
         </h3>
         <div class="box-tools">
             @if(isset($create))
