@@ -26,6 +26,8 @@ Auth::routes(['verify'=>true]);
     Route::get('/', 'HomeController@index')->name('home')->prefix('admin')->middleware('verified');
     route::group(['middleware'=>'auth:web','prefix'=>'admin','namespace'=>'Admin'],function(){
     Route::resource('products','ProductController');
+    Route::resource('customers','CustomerController');
+
 });
 Route::get('redirect/{service}','Admin\SocialController@redirect');
 Route::get('callback/{service}','Admin\SocialController@callback');
