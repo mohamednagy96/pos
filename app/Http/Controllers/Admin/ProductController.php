@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -27,7 +28,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.pages.products.create');
     }
 
     /**
@@ -36,9 +37,19 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        $image_path='';
+        if($request->hasFile('image')){
+            $image_path=$request->file('image')->store('images/products');
+        }
+        $request=$request->all();
+        $request['image']=$image_path;
+        $product=Product::create($request);
+        if (!$product) {
+            return redirect()->back()->with('error', 'Sorry, there a problem while creating product.');
+        }
+        return redirect()->route('products.index')->with('success', 'Success, you product have been created.');
     }
 
     /**
