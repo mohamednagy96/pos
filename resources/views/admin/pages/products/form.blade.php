@@ -25,11 +25,33 @@
                 <label for="description">Description</label>
                 {{ Form::textarea('description', null , ['class' => 'form-control','style'=>'resize:none','rows'=>3]) }}
             </div>
-
+            @if($product)
+            <div class="row">
+                <div class="col-md-2" >
+                    <label for="image">Image</label>
+                    <div class="form-group">
+                    <img src="{{$product->getImage()}} "width="200">
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="form-group" style="margin-top:12%">
+                        <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="image" id="image">
+                            <label class="custom-file-label" for="image">Choose file</label>
+                        </div>
+                        @error('image')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+            @else
             <div class="form-group">
                 <label for="image">Image</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" name="image" id="image">
+                <input type="file" class="custom-file-input" name="image" id="image">
                     <label class="custom-file-label" for="image">Choose file</label>
                 </div>
                 @error('image')
@@ -38,6 +60,7 @@
                 </span>
                 @enderror
             </div>
+            @endif
             <div class="form-group">
                 <label for="barcode">BarCode</label>
                 {{ Form::text('barcode', null , ['class' => 'form-control','placeholder'=>'لآarcode']) }}

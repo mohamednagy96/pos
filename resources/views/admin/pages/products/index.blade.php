@@ -28,18 +28,23 @@
                     <td><img src="{{$product->getImage()}} "width="100"></td>
                     <td>{{$product->barcode}}</td>
                     <td>{{$product->price}}</td>
+                    
                     <td>
+                    <span class="badge badge-{{$product->status == 1 ? 'success' : 'dark'}}"> {{$product->status == 1 ? 'Active' : 'In-Active'}}</span>
+                    </td>
+
+                    {{-- <td>
                     @if( $product->status == 1 )
                         <span class="badge badge-success">Active</span>
                     @else
                        <span class="badge badge-dark">In-Active</span>
                     @endif
-                    </td>
+                    </td> --}}
                     <td>{{$product->created_at ? $product->created_at->diffForHumans() : null }}</td>
                     <td>{{$product->updated_at ? $product->updated_at->diffForHumans() : null }}</td>
                     <td>
                     <a href="{{route('products.edit',$product)}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                    <a href="{{route('products.show',$product)}}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                    <a href="{{route('products.show',$product)}}" class="btn btn-warning"><i class="fas fa-eye"></i></a>
         
                      <button class="btn btn-danger" ><i class="fas fa-trash"></i></button>
                     </td>        
