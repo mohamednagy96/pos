@@ -25,12 +25,12 @@
                 <label for="description">Description</label>
                 {{ Form::textarea('description', null , ['class' => 'form-control','style'=>'resize:none','rows'=>3]) }}
             </div>
-            @if($product)
+            @if(isset($product))
             <div class="row">
                 <div class="col-md-2" >
                     <label for="image">Image</label>
                     <div class="form-group">
-                    <img src="{{$product->getImage()}} "width="200">
+                    <img src="{{$product->getImage() != null ? $product->getImage() : asset('images/default.jpg')}} "width="200">
                     </div>
                 </div>
                 <div class="col-md-10">
@@ -76,7 +76,7 @@
             <div class="form-group">
                 <label for="status">Status</label>
                 <select name="status" class="form-control @error('status') is-invalid @enderror" id="status">
-                    @if($product)
+                    @if(isset($product))
                     <option value="1" {{ old('status', $product->status) === 1 ? 'selected' : ''}}>Active</option>
                     <option value="0" {{ old('status', $product->status) === 0 ? 'selected' : ''}}>Inactive</option>
                     @else

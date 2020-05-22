@@ -24,7 +24,12 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
-        $id=Request()->product->id;
+        
+        $product=Request()->product;
+        $id='';
+        if($product){
+            $id=$product->id;
+        }
         // dd($id);
         return [
             'name'=>'required|string|max:255',
