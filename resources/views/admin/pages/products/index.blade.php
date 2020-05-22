@@ -24,7 +24,7 @@
                 <tr>
                     <td>{{$product->id}}</td>
                     <td>{{$product->name}}</td>
-                   <td><img src="{{Storage::url($product->image)}} "width="100"></td>
+                    <td><img src="{{$product->getImage()}} "width="100"></td>
                     <td>{{$product->barcode}}</td>
                     <td>{{$product->price}}</td>
                     <td>{{$product->created_at}}</td>

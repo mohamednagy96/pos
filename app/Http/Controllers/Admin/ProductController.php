@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Models\Product;
+use App\Services\MediaService;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -39,13 +40,22 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $image_path='';
-        if($request->hasFile('image')){
-            $image_path=$request->file('image')->store('images/products');
-        }
+        /** to store image */
+        
+        // $image_path='';
+        // if($request->hasFile('image')){
+        //     $image_path=$request->file('image')->store('images/products');
+        // }
+
+        /**to retreive it use Storage::url  */
+        // <td><img src="{{Storage::url($product->image)}} "width="100"></td> --}}
+
         $request=$request->all();
-        $request['image']=$image_path;
+        // $request['image']=$image_path;
         $product=Product::create($request);
+        if($request['image']){
+            MediaService::uploadFile($request['image'],$product,'products');
+        }
         if (!$product) {
             return redirect()->back()->with('error', 'Sorry, there a problem while creating product.');
         }
