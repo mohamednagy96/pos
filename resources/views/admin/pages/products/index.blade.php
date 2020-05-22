@@ -18,6 +18,7 @@
                     <th>Image</th>
                     <th>BarCode</th>
                     <th>Price</th>
+                    <th>Quantity</th>
                     <th>Status</th>
                     <th>Created At</th>
                     <th>Updated At</th>
@@ -34,7 +35,7 @@
                     </td>
                     <td>{{$product->barcode}}</td>
                     <td>{{$product->price}}</td>
-                    
+                    <td>{{$product->quantity}}</td>
                     <td>
                     <span class="badge badge-{{$product->status == 1 ? 'success' : 'dark'}}"> {{$product->status == 1 ? 'Active' : 'In-Active'}}</span>
                     </td>
@@ -50,7 +51,7 @@
                     <td>{{$product->updated_at ? $product->updated_at->diffForHumans() : null }}</td>
                     <td>
                         <a href="{{route('products.edit',$product)}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                        <a href="{{route('products.show',$product)}}" class="btn btn-warning"><i class="fas fa-eye"></i></a>
+                        {{-- <a href="{{route('products.show',$product)}}" class="btn btn-warning"><i class="fas fa-eye"></i></a> --}}
                         <button class="btn btn-danger btn-delete" data-url="{{route('products.destroy', $product)}}"><i
                             class="fas fa-trash"></i></button>           
                     </td>        

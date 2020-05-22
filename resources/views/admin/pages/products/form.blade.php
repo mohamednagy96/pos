@@ -63,7 +63,7 @@
             @endif
             <div class="form-group">
                 <label for="barcode">BarCode</label>
-                {{ Form::text('barcode', null , ['class' => 'form-control','placeholder'=>'لآarcode']) }}
+                {{ Form::text('barcode', null , ['class' => 'form-control','placeholder'=>'Barcode']) }}
             </div>
             <div class="form-group">
                 <label for="price">Price</label>
@@ -71,7 +71,7 @@
             </div>
             <div class="form-group">
                 <label for="quantity">Quantity</label>
-                {{ Form::text('quantity', null , ['class' => 'form-control','placeholder'=>'quantity']) }}
+                {{ Form::number('quantity', 1 , ['class' => 'form-control','placeholder'=>'quantity' ]) }}
             </div>
             <div class="form-group">
                 <label for="status">Status</label>

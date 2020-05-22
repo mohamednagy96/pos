@@ -37,6 +37,7 @@ class ProductRequest extends FormRequest
             'image'=>'nullable|image',
             'barcode'=>"required|string|max:50|unique:products,barcode,{$id}",
             'price'=>'required|regex:/^\d+(\.\d{1,2})?$/',
+            'price'=>'required|integer',
             'status'=>'required|boolean',
         ];
     }

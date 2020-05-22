@@ -9,7 +9,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 class Product extends Model implements HasMedia
 {
    use HasMediaTrait;
-   protected $fillable=['name','description','image','barcode','price','status']; 
+   protected $fillable=['name','description','image','barcode','price','status','quantity']; 
 
    public function getImage($collection='products'){
    return  $this->getFirstMedia($collection) ? $this->getFirstMedia($collection)->getUrl() : null ;
