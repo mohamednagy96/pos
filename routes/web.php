@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-define('PAGINATION_COUNT',10);
+// define('PAGINATION_COUNT',10);
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,7 +24,7 @@ Auth::routes(['verify'=>true]);
 
 
     Route::get('/', 'HomeController@index')->name('home')->prefix('admin')->middleware('verified');
-    route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
+    route::group(['middleware'=>'auth:web','prefix'=>'admin','namespace'=>'Admin'],function(){
     Route::resource('products','ProductController');
 });
 Route::get('redirect/{service}','Admin\SocialController@redirect');
