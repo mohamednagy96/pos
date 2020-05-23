@@ -1,3 +1,4 @@
+@inject('media', 'App\Services\MediaService')
 @extends('layouts.admin')
 @section('content-header','Customer List')
 @section('content-actions')
@@ -30,7 +31,8 @@
                 <tr>
                     <td>{{$customer->id}}</td>
                     <td>
-                        <img src="{{$customer->getImage() != null ? $customer->getImage() : asset('images/default.jpg')}} "width="50">
+                    <img src= "{{ $media->getImage($customer,'customers')  != null ? $media->getImage($customer,'customers')  : asset('images/default.jpg')}} "width="100">
+                    {{-- <img src="{{$customer->getImage() != null ? $customer->getImage() : asset('images/default.jpg')}} "width="50"> --}}
                     </td>
                     <td>{{$customer->first_name}}</td>
                     <td>{{$customer->last_name}}</td>

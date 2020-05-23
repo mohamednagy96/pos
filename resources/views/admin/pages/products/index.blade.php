@@ -1,3 +1,4 @@
+@inject('Media', 'App\Services\MediaService')
 @extends('layouts.admin')
 @section('content-header','Product List')
 @section('content-actions')
@@ -31,7 +32,9 @@
                     <td>{{$product->id}}</td>
                     <td>{{$product->name}}</td>
                     <td>
-                    <img src="{{$product->getImage() != null ? $product->getImage() : asset('images/default.jpg')}} "width="100">
+                    <img src= "{{ $media->getImage($product,'products')  != null ? $media->getImage($product,'products')  : asset('images/default.jpg')}} "width="100">
+
+                    {{-- <img src="{{$product->getImage() != null ? $product->getImage() : asset('images/default.jpg')}} "width="100"> --}}
                     </td>
                     <td>{{$product->barcode}}</td>
                     <td>{{$product->price}}</td>

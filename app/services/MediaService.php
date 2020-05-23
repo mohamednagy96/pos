@@ -22,5 +22,7 @@ class MediaService{
             $model->addMedia($file)->toMediaCollection($collection);
     }
 
-
+    public static function getImage($model,$collection='images'){
+       return   $model->getFirstMedia($collection) ? $model->getFirstMedia($collection)->getUrl() : null ;
+    }
 }

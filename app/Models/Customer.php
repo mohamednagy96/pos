@@ -13,7 +13,7 @@ class Customer extends Model implements HasMedia
         'first_name','last_name','email','phone','address','avatar','user_id'
     ];
 
-    public function getImage($collection='customers'){
-        return  $this->getFirstMedia($collection) ? $this->getFirstMedia($collection)->getUrl() : null ;
-        }
+    // public function getImage($collection='customers'){
+    //     return  $this->getFirstMedia($collection) ? $this->getFirstMedia($collection)->getUrl() : null ;
+    //     }
 }

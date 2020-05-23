@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\UserCart;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -41,6 +42,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->first_name.' '.$this->last_name;
     }
     
+    public function carts(){
+        return $this->hasMany(UserCart::class,'user_id');
+     }
+
     public function getAvatar(){
         return 'https://www.gravatar.com/avatar/' . md5($this->email);
     }
