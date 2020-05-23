@@ -2,37 +2,31 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom"
 import axios from "axios"
-
+import Swal from 'sweetalert2'
+import {sum} from 'lodash'
 
 class Cart extends Component{
     constructor(props){
         super(props)
         this.state={
             cart: [],
+            barcode: '',
         };
          
         this.loadCart = this.loadCart.bind(this);
+        this.handleOnChangeBarcode = this.handleOnChangeBarcode.bind(this);
+        this.handleScanBarcode =this.handleScanBarcode.bind(this);
     }
+
 
     componentDidMount(){
         this.loadCart();
     }
 
-    renderCart() {
-        return this.state.cart.map(c => {
-            return (
-                <tr>
-                <td>{c.name}</td>
-                <td>
-                    <input type="text" className="form-control form-control-sm qty" value={c.pivot.quantity}/>
-                    <button className="btn btn-danger btn-sm">
-                        <i className="fas fa-trash"></i>
-                    </button>
-                </td>
-                 <td className="text-right">$ {(c.price * c.pivot.quantity).toFixed(2)}</td>
-            </tr>
-            );
-        })
+    handleOnChangeBarcode(event){
+        const barcode = event.target.value;
+        console.log(barcode);
+        this.setState({barcode})
     }
 
     loadCart(){
@@ -41,13 +35,46 @@ class Cart extends Component{
             this.setState({cart})
         })
     }
+
+    handleScanBarcode(event){
+        event.preventDefault();
+        const {barcode} = this.state;
+        if(!! barcode){
+            axios.post('/admin/cart',{barcode}).then(res => {
+                this.loadCart();
+                this.setState({barcode: ''})
+            }).catch(err => {
+                Swal.fire(
+                    'Error!',
+                    err.response.data.message,
+                    'error'
+                )
+                console.log(err.response.data);
+            })
+        }
+    }
+
+    handleChangeQty(event){
+
+    }
+
+    getTotal(cart){
+        const total =cart.map(c => c.pivot.quantity * c.price);
+        return sum(total);
+    }
     render(){
+        const {cart, barcode} = this.state;
         return(
             <div className="row">
                  <div className="col-md-6 col-lg-4">
                 <div className="row mb-2">
                     <div className="col">
-                        <input type="text" className="form-control" placeholder="Scan Barcode....."/>
+                        <form onSubmit={this.handleScanBarcode}>
+                            <input type="text" className="form-control" placeholder="Scan Barcode....."
+                            value={barcode}
+                            onChange={this.handleOnChangeBarcode}
+                            />  
+                        </form>
                     </div>
                     <div className="col">
                         <select name="" id="" className="form-control">
@@ -60,14 +87,25 @@ class Cart extends Component{
                         <table className="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Product Name</th>
+                                    <th>Prod(uct Name</th>
                                     <th>Quantity</th>
                                     <th className="text-right">Price</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            {this.renderCart()}
-                            </tbody>
+                        {cart.map(c => (
+                            <tr key={c.id}>
+                                <td>{c.name}</td>
+                                <td>
+                                <input type="text" className="form-control form-control-sm qty" value={c.pivot.quantity} onChange={this.handleChangeQty}/>
+                                <button className="btn btn-danger btn-sm">
+                                    <i className="fas fa-trash"></i>
+                                </button>
+                                </td>
+                                 <td className="text-right">$ {(c.price * c.pivot.quantity).toFixed(2)}</td>
+                             </tr>                           
+                        ))} 
+                          </tbody>
                         </table>
                     </div>
                     <div className="row">
@@ -75,7 +113,7 @@ class Cart extends Component{
                             Total
                         </div>
                         <div className="col text-right">
-                            500
+                            $ {this.getTotal(cart)}
                         </div>
                     </div>
                      <div className="row mb-2">
@@ -110,3 +148,5 @@ export default Cart;
 if (document.getElementById("cart")) {
     ReactDOM.render(<Cart />, document.getElementById("cart"));
 }
+
+
