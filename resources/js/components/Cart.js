@@ -16,6 +16,8 @@ class Cart extends Component{
         this.loadCart = this.loadCart.bind(this);
         this.handleOnChangeBarcode = this.handleOnChangeBarcode.bind(this);
         this.handleScanBarcode =this.handleScanBarcode.bind(this);
+        this.handleChangeQty = this.handleChangeQty.bind(this);
+        
     }
 
 
@@ -54,8 +56,23 @@ class Cart extends Component{
         }
     }
 
-    handleChangeQty(event){
+    handleChangeQty(product_id,qty){
+        const cart=this.state.cart.map(c => {
+            if(c.id === product_id){
+                c.pivot.quantity = qty;
+            }
+            return c;
+        })
+        this.setState({cart})
+        axios.post('/admin/cart/change-qty',{product_id,quantity:qty}).then(res=>{
 
+        }).catch(err => {
+            Swal.fire(
+                'Error!',
+                err.response.data.message,
+                'error'
+            )
+        })
     }
 
     getTotal(cart){
@@ -87,7 +104,7 @@ class Cart extends Component{
                         <table className="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Prod(uct Name</th>
+                                    <th>Product Name</th>
                                     <th>Quantity</th>
                                     <th className="text-right">Price</th>
                                 </tr>
@@ -97,7 +114,9 @@ class Cart extends Component{
                             <tr key={c.id}>
                                 <td>{c.name}</td>
                                 <td>
-                                <input type="text" className="form-control form-control-sm qty" value={c.pivot.quantity} onChange={this.handleChangeQty}/>
+                                <input type="text" className="form-control form-control-sm qty"
+                                 value={c.pivot.quantity} 
+                                 onChange={event => this.handleChangeQty(c.id, event.target.value)}/>
                                 <button className="btn btn-danger btn-sm">
                                     <i className="fas fa-trash"></i>
                                 </button>

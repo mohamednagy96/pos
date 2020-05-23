@@ -26,12 +26,27 @@ class CartController extends Controller
        if($cart){
            //update only quantity
            $cart->pivot->quantity = $cart->pivot->quantity + 1;
-           $cart->pivot->save();
+        $cart->pivot->save();
        }else{
            $product=Product::whereBarcode($barcode)->first();
            $request->user()->cart()->attach($product->id,['quantity'=>1]);
         }
         return response('',204);
         // dd($product);
+    }
+
+    public function changeQty(Request $request){
+        $request->validate([
+            'product_id'=>'required|exists:products,id',
+            'quantity'=>'required|integer|min:1',
+        ]);
+        $cart=$request->user()->cart()->whereProductId($request->product_id)->first();
+        if($cart){
+            $cart->pivot->quantity=$request->quantity;
+            $cart->pivot->save();
+        }
+        return response([
+            'success'=>true
+        ]);
     }
 }

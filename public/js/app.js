@@ -69019,6 +69019,7 @@ var Cart = /*#__PURE__*/function (_Component) {
     _this.loadCart = _this.loadCart.bind(_assertThisInitialized(_this));
     _this.handleOnChangeBarcode = _this.handleOnChangeBarcode.bind(_assertThisInitialized(_this));
     _this.handleScanBarcode = _this.handleScanBarcode.bind(_assertThisInitialized(_this));
+    _this.handleChangeQty = _this.handleChangeQty.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -69074,7 +69075,24 @@ var Cart = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleChangeQty",
-    value: function handleChangeQty(event) {}
+    value: function handleChangeQty(product_id, qty) {
+      var cart = this.state.cart.map(function (c) {
+        if (c.id === product_id) {
+          c.pivot.quantity = qty;
+        }
+
+        return c;
+      });
+      this.setState({
+        cart: cart
+      });
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/admin/cart/change-qty', {
+        product_id: product_id,
+        quantity: qty
+      }).then(function (res) {})["catch"](function (err) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire('Error!', err.response.data.message, 'error');
+      });
+    }
   }, {
     key: "getTotal",
     value: function getTotal(cart) {
@@ -69121,7 +69139,7 @@ var Cart = /*#__PURE__*/function (_Component) {
         className: "card"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-striped"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Prod(uct Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Quantity"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Product Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Quantity"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
         className: "text-right"
       }, "Price"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cart.map(function (c) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
@@ -69130,7 +69148,9 @@ var Cart = /*#__PURE__*/function (_Component) {
           type: "text",
           className: "form-control form-control-sm qty",
           value: c.pivot.quantity,
-          onChange: _this4.handleChangeQty
+          onChange: function onChange(event) {
+            return _this4.handleChangeQty(c.id, event.target.value);
+          }
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           className: "btn btn-danger btn-sm"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
