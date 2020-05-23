@@ -62,6 +62,14 @@
               </a>
           </li>
 
+          <li class="nav-item has-treeview">
+            <a href="{{ route('cart') }}" class="nav-link {{ activeSegment('cart') }}">
+                <i class="nav-icon fas fa-cart-plus"></i>
+                <p>
+                    cart
+                </p>
+            </a>
+        </li>
           <li class="nav-item">
             <a href="#" class="nav-link" onclick="document.getElementById('logout-form').submit()">
                 <i class="nav-icon fa fa-sign-out-alt"></i>

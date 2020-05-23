@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
@@ -12,6 +13,10 @@ class Customer extends Model implements HasMedia
     protected $fillable=[
         'first_name','last_name','email','phone','address','avatar','user_id'
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 
     // public function getImage($collection='customers'){
     //     return  $this->getFirstMedia($collection) ? $this->getFirstMedia($collection)->getUrl() : null ;

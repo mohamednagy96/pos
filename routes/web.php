@@ -26,6 +26,7 @@ Auth::routes(['verify'=>true]);
     Route::get('/', 'HomeController@index')->name('home')->prefix('admin')->middleware('verified');
     route::group(['middleware'=>'auth:web','prefix'=>'admin','namespace'=>'Admin'],function(){
     Route::resource('products','ProductController');
+    Route::get('cart','cartController@index')->name('cart');
     Route::resource('customers','CustomerController');
     Route::get('/settings', 'SettingController@index')->name('settings.index');
     Route::post('/settings', 'SettingController@store')->name('settings.store');

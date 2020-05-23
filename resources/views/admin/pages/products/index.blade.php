@@ -1,4 +1,4 @@
-@inject('Media', 'App\Services\MediaService')
+@inject('media', 'App\Services\MediaService')
 @extends('layouts.admin')
 @section('content-header','Product List')
 @section('content-actions')
