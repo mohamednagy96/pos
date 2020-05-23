@@ -17,6 +17,7 @@ class Cart extends Component{
         this.handleOnChangeBarcode = this.handleOnChangeBarcode.bind(this);
         this.handleScanBarcode =this.handleScanBarcode.bind(this);
         this.handleChangeQty = this.handleChangeQty.bind(this);
+        this.handleEmptyCart = this.handleEmptyCart.bind(this);
         
     }
 
@@ -74,7 +75,20 @@ class Cart extends Component{
             )
         })
     }
+    handleClickDelete(product_id){
+        axios.post('/admin/cart/delete',{product_id,_method:'DELETE'}).then(res => {
+            const cart = this.state.cart.filter(c => c.id !== product_id);
+            this.setState({cart});
+        })
+    }
 
+    handleEmptyCart(){
+        axios.post('/admin/cart/empty',{_method:'DELETE'}).then(res => {
+            this.setState({cart: []});
+        })
+    }
+    
+    
     getTotal(cart){
         const total =cart.map(c => c.pivot.quantity * c.price);
         return sum(total);
@@ -117,7 +131,8 @@ class Cart extends Component{
                                 <input type="text" className="form-control form-control-sm qty"
                                  value={c.pivot.quantity} 
                                  onChange={event => this.handleChangeQty(c.id, event.target.value)}/>
-                                <button className="btn btn-danger btn-sm">
+                                <button className="btn btn-danger btn-sm" 
+                                onClick={() => this.handleClickDelete(c.id)}>
                                     <i className="fas fa-trash"></i>
                                 </button>
                                 </td>
@@ -137,7 +152,9 @@ class Cart extends Component{
                     </div>
                      <div className="row mb-2">
                         <div className="col ">
-                            <button type="button" className="btn btn-danger btn-block">Cancel</button>
+                            <button type="button" className="btn btn-danger btn-block"
+                            onClick={this.handleEmptyCart}
+                            >Cancel</button>
                         </div>
                         <div className="col">
                             <button type="button" className="btn btn-success btn-block">Submit</button>

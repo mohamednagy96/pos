@@ -49,4 +49,17 @@ class CartController extends Controller
             'success'=>true
         ]);
     }
+
+    public function delete(Request $request){
+        $request->validate([
+            'product_id'=>'required|exists:products,id'
+        ]);
+        $request->user()->cart()->detach($request->product_id);
+        return response('',204);
+    }
+
+    public function empty(Request $request){
+        $request->user()->cart()->detach();
+        return response('',204);
+    }
 }

@@ -69020,6 +69020,7 @@ var Cart = /*#__PURE__*/function (_Component) {
     _this.handleOnChangeBarcode = _this.handleOnChangeBarcode.bind(_assertThisInitialized(_this));
     _this.handleScanBarcode = _this.handleScanBarcode.bind(_assertThisInitialized(_this));
     _this.handleChangeQty = _this.handleChangeQty.bind(_assertThisInitialized(_this));
+    _this.handleEmptyCart = _this.handleEmptyCart.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -69094,6 +69095,37 @@ var Cart = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
+    key: "handleClickDelete",
+    value: function handleClickDelete(product_id) {
+      var _this4 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/admin/cart/delete', {
+        product_id: product_id,
+        _method: 'DELETE'
+      }).then(function (res) {
+        var cart = _this4.state.cart.filter(function (c) {
+          return c.id !== product_id;
+        });
+
+        _this4.setState({
+          cart: cart
+        });
+      });
+    }
+  }, {
+    key: "handleEmptyCart",
+    value: function handleEmptyCart() {
+      var _this5 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/admin/cart/empty', {
+        _method: 'DELETE'
+      }).then(function (res) {
+        _this5.setState({
+          cart: []
+        });
+      });
+    }
+  }, {
     key: "getTotal",
     value: function getTotal(cart) {
       var total = cart.map(function (c) {
@@ -69104,7 +69136,7 @@ var Cart = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this6 = this;
 
       var _this$state = this.state,
           cart = _this$state.cart,
@@ -69149,10 +69181,13 @@ var Cart = /*#__PURE__*/function (_Component) {
           className: "form-control form-control-sm qty",
           value: c.pivot.quantity,
           onChange: function onChange(event) {
-            return _this4.handleChangeQty(c.id, event.target.value);
+            return _this6.handleChangeQty(c.id, event.target.value);
           }
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          className: "btn btn-danger btn-sm"
+          className: "btn btn-danger btn-sm",
+          onClick: function onClick() {
+            return _this6.handleClickDelete(c.id);
+          }
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fas fa-trash"
         }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
@@ -69170,7 +69205,8 @@ var Cart = /*#__PURE__*/function (_Component) {
         className: "col "
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
-        className: "btn btn-danger btn-block"
+        className: "btn btn-danger btn-block",
+        onClick: this.handleEmptyCart
       }, "Cancel")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
