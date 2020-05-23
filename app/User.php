@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Customer;
+use App\Models\Product;
 use App\Models\UserCart;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -43,8 +44,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->first_name.' '.$this->last_name;
     }
     
-    public function carts(){
-        return $this->hasMany(UserCart::class,'user_id');
+    public function cart(){
+        return $this->belongsToMany(Product::class,'user_carts')->withPivot('quantity');
      }
 
      public function customers(){

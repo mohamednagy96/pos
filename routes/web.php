@@ -26,7 +26,11 @@ Auth::routes(['verify'=>true]);
     Route::get('/', 'HomeController@index')->name('home')->prefix('admin')->middleware('verified');
     route::group(['middleware'=>'auth:web','prefix'=>'admin','namespace'=>'Admin'],function(){
     Route::resource('products','ProductController');
-    Route::get('cart','cartController@index')->name('cart');
+    Route::get('/cart', 'CartController@index')->name('cart.index');
+    Route::post('/cart', 'CartController@store')->name('cart.store');
+    Route::post('/cart/change-qty', 'CartController@changeQty');
+    Route::delete('/cart/delete', 'CartController@delete');
+    Route::delete('/cart/empty', 'CartController@empty');
     Route::resource('customers','CustomerController');
     Route::get('/settings', 'SettingController@index')->name('settings.index');
     Route::post('/settings', 'SettingController@store')->name('settings.store');
