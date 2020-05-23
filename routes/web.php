@@ -27,6 +27,8 @@ Auth::routes(['verify'=>true]);
     route::group(['middleware'=>'auth:web','prefix'=>'admin','namespace'=>'Admin'],function(){
     Route::resource('products','ProductController');
     Route::resource('customers','CustomerController');
+    Route::get('/settings', 'SettingController@index')->name('settings.index');
+    Route::post('/settings', 'SettingController@store')->name('settings.store');
 
 });
 Route::get('redirect/{service}','Admin\SocialController@redirect');
