@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\MediaService;
 use Illuminate\Http\Request;
@@ -16,9 +17,19 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(Request $request)
+    {  
+        //   $products=Product::find(5);
+        // return $products->getImage();
+        $products =new Product();
+        if($request->search){
+            $products = $products->where('name', 'LIKE', "%{$request->search}%")->get();
+            return ProductResource::collection($products);
+        }
         $products=Product::latest()->paginate(10);
+        if($request->wantsJson()){
+            return ProductResource::collection($products);
+        }
         return view('admin.pages.products.index',compact('products'));
     }
 

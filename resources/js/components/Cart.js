@@ -5,12 +5,15 @@ import axios from "axios"
 import Swal from 'sweetalert2'
 import {sum} from 'lodash'
 
+
 class Cart extends Component{
     constructor(props){
         super(props)
         this.state={
             cart: [],
+            products:[],
             barcode: '',
+            search:''
         };
          
         this.loadCart = this.loadCart.bind(this);
@@ -18,12 +21,29 @@ class Cart extends Component{
         this.handleScanBarcode =this.handleScanBarcode.bind(this);
         this.handleChangeQty = this.handleChangeQty.bind(this);
         this.handleEmptyCart = this.handleEmptyCart.bind(this);
+
+        //products
+        this.loadProducts = this.loadProducts.bind(this);
+        this.handleChangeSearch = this.handleChangeSearch.bind(this);
+        this.handleSeach = this.handleSeach.bind(this);
+
+
+        
         
     }
 
 
     componentDidMount(){
         this.loadCart();
+        this.loadProducts();
+    }
+
+    loadProducts(search = ''){
+        const query = !!search ? `?search=${search}` : "";
+        axios.get(`/admin/products${query}`).then(res => {
+            const products =res.data.data;
+            this.setState({products});
+        })
     }
 
     handleOnChangeBarcode(event){
@@ -52,7 +72,6 @@ class Cart extends Component{
                     err.response.data.message,
                     'error'
                 )
-                console.log(err.response.data);
             })
         }
     }
@@ -88,13 +107,40 @@ class Cart extends Component{
         })
     }
     
-    
     getTotal(cart){
         const total =cart.map(c => c.pivot.quantity * c.price);
         return sum(total);
     }
+
+    handleChangeSearch(event) {
+        const search = event.target.value;
+        this.setState({ search });
+    }
+
+    handleSeach(event) {
+        if (event.keyCode === 13) {
+            this.loadProducts(event.target.value);
+        }
+    }
+
+    addPoductToCart(barcode){
+        axios.post('/admin/cart',{barcode}).then(res => {
+            this.loadCart();
+            this.setState({barcode: ''})
+        }).catch(err => {
+            Swal.fire(
+                'Error!',
+                err.response.data.message,
+                'error'
+            )
+        })
+    }
+    
+
+
     render(){
-        const {cart, barcode} = this.state;
+        const {cart, products ,barcode} = this.state;
+
         return(
             <div className="row">
                  <div className="col-md-6 col-lg-4">
@@ -164,13 +210,22 @@ class Cart extends Component{
             </div>
             <div className="col-md-6 col-lg-8">
                 <div className="mb-2">
-                    <input type="text" className="input form-control" placeholder="Search Product ... "/>
+                    <input type="text"
+                        className="input form-control"
+                        placeholder="Search Product ... "
+                        onChange={this.handleChangeSearch}
+                        onKeyDown={this.handleSeach}
+                      />
                 </div>
+
                 <div className="order-product">
-                    <div className="item">
-                        <img src="http://localhost:8000/storage/1/coca.jpg" alt=".." />
-                        <h5>Coca</h5>
+                    {products.map(p =>(
+                    <div onClick={()=> this.addPoductToCart(p.barcode)}
+                     key={p.id} className="item">
+                        <img src={p.image} alt=".." />
+                        <h5>{p.name}</h5>
                     </div>
+                    ))}
                 </div>
             </div>
         </div>

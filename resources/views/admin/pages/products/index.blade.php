@@ -16,7 +16,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Image</th>
+                    <th >Image</th>
                     <th>BarCode</th>
                     <th>Price</th>
                     <th>Quantity</th>
@@ -33,6 +33,7 @@
                     <td>{{$product->name}}</td>
                     <td>
                     <img src= "{{ $media->getImage($product,'products')  != null ? $media->getImage($product,'products')  : asset('images/default.jpg')}} "width="100">
+                     {{-- <img src="{{$product->image  != null ? Storage::url($product->image) :  asset('images/default.jpg')}} "width="100"> --}}
 
                     {{-- <img src="{{$product->getImage() != null ? $product->getImage() : asset('images/default.jpg')}} "width="100"> --}}
                     </td>
