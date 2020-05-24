@@ -18,7 +18,7 @@ class Customer extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
-    // public function getImage($collection='customers'){
-    //     return  $this->getFirstMedia($collection) ? $this->getFirstMedia($collection)->getUrl() : null ;
-    //     }
+    public function getImage($collection='customers'){
+        return  $this->getFirstMedia($collection) ? $this->getFirstMedia($collection)->getUrl() : null ;
+        }
 }

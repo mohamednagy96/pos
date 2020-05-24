@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerStoreRequest;
+use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use App\Services\MediaService;
 use Illuminate\Http\Request;
@@ -15,9 +16,13 @@ class customerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $customers=Customer::latest()->paginate(10);
+        if($request->wantsJson()){
+            $customers=Customer::all();
+            return $customers;
+        }
         return view('admin.pages.customers.index',compact('customers'));
 
     }
