@@ -31,9 +31,7 @@ class Cart extends Component{
 
         this.setCustomerId = this.setCustomerId.bind(this);
 
-        
-
-        
+        this.handleClickSubmit = this.handleClickSubmit.bind(this);
     }
 
 
@@ -152,6 +150,31 @@ class Cart extends Component{
         this.setState({ customer_id: event.target.value });
     }
 
+    handleClickSubmit(){
+            Swal.fire({
+                title: 'Received Amount',
+                input: 'text',
+                inputValue: this.getTotal(this.state.cart),
+                showCancelButton: true,
+                confirmButtonText: 'Send',
+                showLoaderOnConfirm: true,
+                preConfirm: (amount) => {
+                    return axios.post('/admin/orders', {customer_id: this.state.customer_id, amount}).then(res => {
+                        this.loadCart();
+                        return res.data;
+                    }).catch(err => {
+                        Swal.showValidationMessage(err.response.data.message)
+                    })
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.value) {
+                    //
+                }
+            })
+        
+    }
+
     render(){
         const {cart, products ,customers ,barcode} = this.state;
         // console.log(this.state.customer_id)
@@ -171,7 +194,7 @@ class Cart extends Component{
                     <select
                         className="form-control"
                         onChange={this.setCustomerId}>
-                                {/* <option value="">Walking Customer</option> */}
+                                <option value="">Walking Customer</option>
                                 {customers.map(cus => (
                                     <option
                                         key={cus.id}
@@ -230,6 +253,7 @@ class Cart extends Component{
                             type="button" 
                             className="btn btn-success btn-block"
                             disabled={! cart.length}
+                            onClick={this.handleClickSubmit}
                             >Submit</button>
                         </div>
                     </div>

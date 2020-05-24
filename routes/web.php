@@ -32,6 +32,8 @@ Auth::routes(['verify'=>true]);
     Route::delete('/cart/delete', 'CartController@delete');
     Route::delete('/cart/empty', 'CartController@empty');
     Route::resource('customers','CustomerController');
+    Route::resource('orders','OrderController');
+
     Route::get('/settings', 'SettingController@index')->name('settings.index');
     Route::post('/settings', 'SettingController@store')->name('settings.store');
 

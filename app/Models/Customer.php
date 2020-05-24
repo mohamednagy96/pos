@@ -18,6 +18,10 @@ class Customer extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
+    public function orders(){
+        return $this->hasMany(Order::class,'customer_id');
+    }
+
     public function getImage($collection='customers'){
         return  $this->getFirstMedia($collection) ? $this->getFirstMedia($collection)->getUrl() : null ;
         }

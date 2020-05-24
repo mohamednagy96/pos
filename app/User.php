@@ -3,6 +3,8 @@
 namespace App;
 
 use App\Models\Customer;
+use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Product;
 use App\Models\UserCart;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -51,6 +53,14 @@ class User extends Authenticatable implements MustVerifyEmail
      public function customers(){
         return $this->hasMany(Customer::class,'user_id');
      }
+
+     public function orders(){
+        return $this->hasMany(Order::class,'user_id');
+    }
+
+    public function payments(){
+        return $this->hasMany(Payment::class,'user_id');
+    }
 
     public function getAvatar(){
         return 'https://www.gravatar.com/avatar/' . md5($this->email);

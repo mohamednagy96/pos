@@ -15,6 +15,10 @@ class Product extends Model implements HasMedia
       return $this->hasMany(UserCart::class,'product_id');
    }
 
+   public function items(){
+      return $this->hasMany(OrderItem::class,'product_id');
+  }
+
    public function getImage($collection='products'){
    return  $this->getFirstMedia($collection) ? $this->getFirstMedia($collection)->getUrl() : null ;
    }

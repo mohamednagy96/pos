@@ -69030,6 +69030,7 @@ var Cart = /*#__PURE__*/function (_Component) {
     _this.handleChangeSearch = _this.handleChangeSearch.bind(_assertThisInitialized(_this));
     _this.handleSeach = _this.handleSeach.bind(_assertThisInitialized(_this));
     _this.setCustomerId = _this.setCustomerId.bind(_assertThisInitialized(_this));
+    _this.handleClickSubmit = _this.handleClickSubmit.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -69211,9 +69212,41 @@ var Cart = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
+    key: "handleClickSubmit",
+    value: function handleClickSubmit() {
+      var _this9 = this;
+
+      sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.fire({
+        title: 'Received Amount',
+        input: 'text',
+        inputValue: this.getTotal(this.state.cart),
+        showCancelButton: true,
+        confirmButtonText: 'Send',
+        showLoaderOnConfirm: true,
+        preConfirm: function preConfirm(amount) {
+          return axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/admin/orders', {
+            customer_id: _this9.state.customer_id,
+            amount: amount
+          }).then(function (res) {
+            _this9.loadCart();
+
+            return res.data;
+          })["catch"](function (err) {
+            sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.showValidationMessage(err.response.data.message);
+          });
+        },
+        allowOutsideClick: function allowOutsideClick() {
+          return !sweetalert2__WEBPACK_IMPORTED_MODULE_3___default.a.isLoading();
+        }
+      }).then(function (result) {
+        if (result.value) {//
+        }
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this9 = this;
+      var _this10 = this;
 
       var _this$state = this.state,
           cart = _this$state.cart,
@@ -69242,7 +69275,9 @@ var Cart = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
         onChange: this.setCustomerId
-      }, customers.map(function (cus) {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }, "Walking Customer"), customers.map(function (cus) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           key: cus.id,
           value: cus.id
@@ -69263,12 +69298,12 @@ var Cart = /*#__PURE__*/function (_Component) {
           className: "form-control form-control-sm qty",
           value: c.pivot.quantity,
           onChange: function onChange(event) {
-            return _this9.handleChangeQty(c.id, event.target.value);
+            return _this10.handleChangeQty(c.id, event.target.value);
           }
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           className: "btn btn-danger btn-sm",
           onClick: function onClick() {
-            return _this9.handleClickDelete(c.id);
+            return _this10.handleClickDelete(c.id);
           }
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fas fa-trash"
@@ -69295,7 +69330,8 @@ var Cart = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "button",
         className: "btn btn-success btn-block",
-        disabled: !cart.length
+        disabled: !cart.length,
+        onClick: this.handleClickSubmit
       }, "Submit"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-6 col-lg-8"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -69311,7 +69347,7 @@ var Cart = /*#__PURE__*/function (_Component) {
       }, products.map(function (p) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           onClick: function onClick() {
-            return _this9.addPoductToCart(p.barcode);
+            return _this10.addPoductToCart(p.barcode);
           },
           key: p.id,
           className: "item"
