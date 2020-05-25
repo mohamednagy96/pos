@@ -25,4 +25,5 @@ class Customer extends Model implements HasMedia
     public function getImage($collection='customers'){
         return  $this->getFirstMedia($collection) ? $this->getFirstMedia($collection)->getUrl() : null ;
         }
+
 }
