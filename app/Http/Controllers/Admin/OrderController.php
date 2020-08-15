@@ -22,6 +22,7 @@ class OrderController extends Controller
         $total=$orders->map(function ($o){
             return $o->total();
         })->sum();
+        
         $receicedAmount=$orders->map(function ($o){
             return $o->receivedAmount();
         })->sum();
