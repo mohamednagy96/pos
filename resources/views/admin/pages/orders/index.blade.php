@@ -23,7 +23,7 @@
 
                         <input type="date" name="end_date" class="form-control" value="{{request('end_date')}}">
                         </div>
-                        <div class="col-md-2">
+                        <div>
                             <button class="btn btn-outline-primary">Submit</button>
                         </div>
 
