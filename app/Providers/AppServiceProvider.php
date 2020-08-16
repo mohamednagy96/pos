@@ -24,20 +24,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Schema::defaultStringLength(191);
+
         // $settings=Setting::pluck('value','key')->toArray();
-           $settings = Setting::all('key', 'value')
-           ->keyBy('key')
-           ->transform(function ($setting) {
-               return $setting->value;
-           })->toArray();
-        // dd($settings);
+    //        $settings = Setting::all('key', 'value')
+    //        ->keyBy('key')
+    //        ->transform(function ($setting) {
+    //            return $setting->value;
+    //        })->toArray();
+    //     // dd($settings);
 
-           config([
-               'settings' => $settings
-               ]);
-            //    dd(config('settings'));
+    //        config([
+    //            'settings' => $settings
+    //            ]);
+    //         //    dd(config('settings'));
 
-       config(['app.name' => config('settings.app_name')]);
+    //    config(['app.name' => config('settings.app_name')]);
 
     }
 }

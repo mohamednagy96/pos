@@ -20,7 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes(['verify'=>true]);
+Auth::routes();
 
 
     Route::get('/', 'HomeController@index')->name('home')->prefix('admin')->middleware('verified');
