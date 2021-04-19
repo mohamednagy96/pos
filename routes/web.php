@@ -16,9 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 // define('PAGINATION_COUNT',10);
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
 
