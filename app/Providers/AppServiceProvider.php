@@ -36,15 +36,13 @@ class AppServiceProvider extends ServiceProvider
                 return $setting->value;
             })->toArray();
          // dd($settings);
- 
             config([
                 'settings' => $settings
                 ]);
-             //    dd(config('settings'));
  
         config(['app.name' => config('settings.app_name')]);
- 
-        }catch(Exception $e){}
+            }catch(Exception $e){}
          
     }
 }
+
